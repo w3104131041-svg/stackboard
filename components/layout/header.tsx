@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -14,18 +15,23 @@ type Profile = {
 
 function StackboardLogo() {
   return (
-    <Link href="/" className="flex items-center gap-3 shrink-0">
-      <div className="logo-mark-wrap">
-        <div className="logo-mark">
-          <span className="logo-layer logo-layer-1" />
-          <span className="logo-layer logo-layer-2" />
-          <span className="logo-layer logo-layer-3" />
-        </div>
-      </div>
+    <Link href="/" className="flex shrink-0 items-center gap-3">
+      <Image
+        src="/icon-512.png"
+        alt="StackBoard"
+        width={44}
+        height={44}
+        className="h-11 w-11 rounded-xl object-cover shadow-[0_0_24px_rgba(16,185,129,0.18)]"
+        priority
+      />
 
-      <div className="flex flex-col">
-        <span className="logo-text">STACKBOARD</span>
-        <span className="logo-subtext">PRIVATE POKER COMMUNITY</span>
+      <div className="flex flex-col leading-none">
+        <span className="text-lg font-semibold tracking-[0.18em] text-white">
+          STACKBOARD
+        </span>
+        <span className="mt-1 text-[10px] uppercase tracking-[0.24em] text-white/45">
+          PRIVATE POKER COMMUNITY
+        </span>
       </div>
     </Link>
   )
@@ -44,14 +50,14 @@ function MobileNavLink({
     <Link
       href={href}
       onClick={onNavigate}
-      className="text-sm text-white/75 transition hover:text-white"
+      className="text-base text-white/80 transition hover:text-white"
     >
       {children}
     </Link>
   )
 }
 
-export async function Header() {
+export function Header() {
   return <ClientHeader />
 }
 
@@ -94,27 +100,49 @@ function ClientHeader() {
         <StackboardLogo />
 
         <nav className="hidden items-center gap-6 md:flex">
-          <Link href="/me/settings" className="text-sm text-white/75 transition hover:text-white">
+          <Link
+            href="/me/settings"
+            className="text-sm text-white/75 transition hover:text-white"
+          >
             プロフィール
           </Link>
-          <Link href="/events" className="text-sm text-white/75 transition hover:text-white">
+          <Link
+            href="/events"
+            className="text-sm text-white/75 transition hover:text-white"
+          >
             開催一覧
           </Link>
-          <Link href="/rankings" className="text-sm text-white/75 transition hover:text-white">
+          <Link
+            href="/rankings"
+            className="text-sm text-white/75 transition hover:text-white"
+          >
             ランキング
           </Link>
-          <Link href="/members" className="text-sm text-white/75 transition hover:text-white">
+          <Link
+            href="/members"
+            className="text-sm text-white/75 transition hover:text-white"
+          >
             メンバー
           </Link>
-          <Link href="/me" className="text-sm text-white/75 transition hover:text-white">
+          <Link
+            href="/me"
+            className="text-sm text-white/75 transition hover:text-white"
+          >
             マイページ
           </Link>
+
           {user?.role === 'admin' ? (
             <>
-              <Link href="/dashboard" className="text-sm text-white/75 transition hover:text-white">
+              <Link
+                href="/dashboard"
+                className="text-sm text-white/75 transition hover:text-white"
+              >
                 管理画面
               </Link>
-              <Link href="/admin/events/new" className="text-sm text-white/75 transition hover:text-white">
+              <Link
+                href="/admin/events/new"
+                className="text-sm text-white/75 transition hover:text-white"
+              >
                 新規開催
               </Link>
             </>
@@ -125,7 +153,9 @@ function ClientHeader() {
           {user ? (
             <>
               <div className="text-right">
-                <p className="text-sm font-medium text-white">{user.display_name}</p>
+                <p className="text-sm font-medium text-white">
+                  {user.display_name}
+                </p>
                 <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                   {user.role}
                 </p>
@@ -154,29 +184,50 @@ function ClientHeader() {
 
       {menuOpen ? (
         <div className="border-t border-white/8 md:hidden">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4">
-            <MobileNavLink href="/me/settings" onNavigate={() => setMenuOpen(false)}>
+          <div className="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-5">
+            <MobileNavLink
+              href="/me/settings"
+              onNavigate={() => setMenuOpen(false)}
+            >
               プロフィール
             </MobileNavLink>
-            <MobileNavLink href="/events" onNavigate={() => setMenuOpen(false)}>
+            <MobileNavLink
+              href="/events"
+              onNavigate={() => setMenuOpen(false)}
+            >
               開催一覧
             </MobileNavLink>
-            <MobileNavLink href="/rankings" onNavigate={() => setMenuOpen(false)}>
+            <MobileNavLink
+              href="/rankings"
+              onNavigate={() => setMenuOpen(false)}
+            >
               ランキング
             </MobileNavLink>
-            <MobileNavLink href="/members" onNavigate={() => setMenuOpen(false)}>
+            <MobileNavLink
+              href="/members"
+              onNavigate={() => setMenuOpen(false)}
+            >
               メンバー
             </MobileNavLink>
-            <MobileNavLink href="/me" onNavigate={() => setMenuOpen(false)}>
+            <MobileNavLink
+              href="/me"
+              onNavigate={() => setMenuOpen(false)}
+            >
               マイページ
             </MobileNavLink>
 
             {user?.role === 'admin' ? (
               <>
-                <MobileNavLink href="/dashboard" onNavigate={() => setMenuOpen(false)}>
+                <MobileNavLink
+                  href="/dashboard"
+                  onNavigate={() => setMenuOpen(false)}
+                >
                   管理画面
                 </MobileNavLink>
-                <MobileNavLink href="/admin/events/new" onNavigate={() => setMenuOpen(false)}>
+                <MobileNavLink
+                  href="/admin/events/new"
+                  onNavigate={() => setMenuOpen(false)}
+                >
                   新規開催
                 </MobileNavLink>
               </>
@@ -186,7 +237,9 @@ function ClientHeader() {
               {user ? (
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium text-white">{user.display_name}</p>
+                    <p className="text-sm font-medium text-white">
+                      {user.display_name}
+                    </p>
                     <p className="text-xs uppercase tracking-[0.18em] text-white/40">
                       {user.role}
                     </p>
