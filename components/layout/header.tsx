@@ -95,7 +95,7 @@ function ClientHeader() {
   }, [pathname])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#05110d]/80 backdrop-blur-xl">
+    <header className="border-b border-white/10 bg-[#05110d]/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
         <StackboardLogo />
 
