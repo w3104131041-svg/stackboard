@@ -1,33 +1,15 @@
-import './globals.css'
-import type { Metadata, Viewport } from 'next'
-import { Header } from '@/components/layout/header'
-
-export const metadata: Metadata = {
-  title: 'StackBoard',
-  description: 'ホームゲームの開催、結果、収支、ランキングを管理するアプリ',
-  manifest: '/manifest.webmanifest',
-  appleWebApp: {
-    capable: true,
-    title: 'StackBoard',
-    statusBarStyle: 'black-translucent',
-  },
-}
-
-export const viewport: Viewport = {
-  themeColor: '#10b981',
-}
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Loading() {
   return (
-    <html lang="ja">
-      <body className="page-noise min-h-screen bg-[#05110d] text-white antialiased">
-        <Header />
-        {children}
-      </body>
-    </html>
+    <div className="flex min-h-screen items-center justify-center bg-[#05110d] px-6 text-white">
+      <div className="text-center">
+        <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-emerald-400/20 border-t-emerald-400" />
+        <p className="mt-6 text-sm uppercase tracking-[0.28em] text-emerald-300/75">
+          Loading
+        </p>
+        <h1 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+          読み込み中...
+        </h1>
+      </div>
+    </div>
   )
 }
