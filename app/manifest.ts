@@ -6,6 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'StackBoard',
     description: 'ホームゲームの開催、結果、収支、ランキングを管理するアプリ',
     start_url: '/',
+    scope: '/',
     display: 'standalone',
     background_color: '#05110d',
     theme_color: '#10b981',
