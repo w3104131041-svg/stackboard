@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 function getInitial(name: string | null | undefined) {
@@ -10,6 +11,9 @@ function getInitial(name: string | null | undefined) {
 
 export default function SettingsPage() {
   const supabase = createClient()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const isFirstSetup = searchParams.get('setup') === '1'
 
   const [name, setName] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
@@ -81,7 +85,7 @@ export default function SettingsPage() {
     const { error } = await supabase
       .from('profiles')
       .update({
-        display_name: name,
+        display_name: name || 'No Name',
         avatar_url: avatarUrl,
       })
       .eq('id', user.id)
@@ -94,16 +98,22 @@ export default function SettingsPage() {
       return
     }
 
-    alert('保存しました')
+    router.push('/me')
+    router.refresh()
   }
 
   return (
     <div className="mx-auto max-w-2xl space-y-10 px-4 py-12">
       <div>
-        <p className="text-xs tracking-[0.3em] text-emerald-300 uppercase">
+        <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">
           PROFILE
         </p>
         <h1 className="mt-4 text-4xl font-semibold">プロフィール設定</h1>
+        {isFirstSetup ? (
+          <p className="mt-4 text-sm text-white/60">
+            最初に表示名とアイコンを設定してください。
+          </p>
+        ) : null}
       </div>
 
       <div className="soft-card rounded-2xl p-6 space-y-8">
@@ -165,7 +175,7 @@ export default function SettingsPage() {
           disabled={loading}
           className="btn-primary rounded-full px-6 py-3"
         >
-          {loading ? '保存中...' : '保存'}
+          {loading ? '保存中...' : '保存してマイページへ'}
         </button>
       </div>
     </div>

@@ -62,106 +62,114 @@ export default function LoginPage() {
     }
 
     setLoading(false)
-    alert('登録しました。ログインしてください。')
+
+    if (data.session) {
+      router.push('/me/settings?setup=1')
+      router.refresh()
+      return
+    }
+
+    alert('登録しました。メール確認後にログインしてください。')
     setMode('login')
   }
 
   return (
-    <div className="min-h-screen bg-[#eef3f1] text-[#102126]">
-      <div className="mx-auto flex min-h-screen max-w-md flex-col px-8 pt-16 pb-10">
-        <div className="pt-8">
-          <h1 className="text-6xl font-semibold tracking-[-0.05em] text-[#102126]">
-            Booking
-          </h1>
-          <p className="mt-6 text-xl text-[#4e6369]">
-            席予約システムにサインイン
-          </p>
-        </div>
-
-        <div className="mt-12 inline-flex rounded-full bg-[#dfe8e6] p-1">
-          <button
-            type="button"
-            onClick={() => setMode('login')}
-            className={`rounded-full px-8 py-4 text-lg font-semibold transition ${
-              mode === 'login'
-                ? 'bg-[#2a7f7d] text-white shadow-sm'
-                : 'text-[#91a3a7]'
-            }`}
-          >
-            ログイン
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMode('signup')}
-            className={`rounded-full px-8 py-4 text-lg font-semibold transition ${
-              mode === 'signup'
-                ? 'bg-[#2a7f7d] text-white shadow-sm'
-                : 'text-[#91a3a7]'
-            }`}
-          >
-            新規登録
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="mt-10 space-y-8">
-          <div>
-            <label className="mb-3 block text-lg font-medium text-[#31484e]">
-              メールアドレス
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="mail@example.com"
-              className="w-full rounded-2xl border border-[#b7cfcb] bg-white px-5 py-5 text-lg outline-none placeholder:text-[#a0acad]"
-              required
-            />
+    <div className="min-h-screen bg-[#05110d] text-white">
+      <div className="mx-auto flex min-h-screen max-w-md items-center px-6 py-10">
+        <div className="w-full">
+          <div className="text-center">
+            <p className="text-[11px] uppercase tracking-[0.34em] text-emerald-300/75">
+              StackBoard
+            </p>
+            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.05em]">
+              ログイン
+            </h1>
+            <p className="mt-4 text-sm leading-7 text-white/55">
+              開催、結果、収支、ランキングをまとめて管理
+            </p>
           </div>
 
-          <div>
-            <label className="mb-3 block text-lg font-medium text-[#31484e]">
-              パスワード
-            </label>
-            <div className="flex items-center rounded-2xl border border-[#b7cfcb] bg-white px-5">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="パスワードを入力"
-                className="w-full bg-transparent py-5 text-lg outline-none placeholder:text-[#a0acad]"
-                required
-              />
+          <div className="soft-card mt-10 rounded-[2rem] p-6 md:p-8">
+            <div className="flex rounded-full bg-white/5 p-1">
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="ml-3 text-2xl"
+                onClick={() => setMode('login')}
+                className={`flex-1 rounded-full px-4 py-3 text-sm font-medium transition ${
+                  mode === 'login'
+                    ? 'bg-emerald-500 text-black'
+                    : 'text-white/40'
+                }`}
               >
-                {showPassword ? '🙈' : '🙉'}
+                ログイン
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMode('signup')}
+                className={`flex-1 rounded-full px-4 py-3 text-sm font-medium transition ${
+                  mode === 'signup'
+                    ? 'bg-emerald-500 text-black'
+                    : 'text-white/40'
+                }`}
+              >
+                新規登録
               </button>
             </div>
-          </div>
 
-          {error ? (
-            <p className="text-base text-red-500">{error}</p>
-          ) : null}
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              <div>
+                <label className="text-sm text-white/60">
+                  メールアドレス
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 outline-none"
+                  placeholder="mail@example.com"
+                  required
+                />
+              </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-full bg-[#2a7f7d] px-6 py-5 text-2xl font-semibold text-white transition hover:opacity-95 disabled:opacity-60"
-          >
-            {loading
-              ? '処理中...'
-              : mode === 'login'
-              ? 'サインイン'
-              : '新規登録'}
-          </button>
-        </form>
+              <div>
+                <label className="text-sm text-white/60">
+                  パスワード
+                </label>
+                <div className="mt-2 flex items-center rounded-xl border border-white/10 bg-black/30 px-4">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-transparent py-3 outline-none"
+                    placeholder="********"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="ml-3 text-lg"
+                  >
+                    {showPassword ? '🙈' : '👁️'}
+                  </button>
+                </div>
+              </div>
 
-        <div className="mt-12">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#dfe8e6] text-xl">
-            🌘
+              {error ? (
+                <p className="text-sm text-red-400">{error}</p>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary w-full rounded-full py-4 text-base font-semibold disabled:opacity-60"
+              >
+                {loading
+                  ? '処理中...'
+                  : mode === 'login'
+                  ? 'ログイン'
+                  : '新規登録'}
+              </button>
+            </form>
           </div>
         </div>
       </div>
