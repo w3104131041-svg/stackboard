@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { sendLineMessage } from '@/lib/line'
 
 export async function POST(request: Request) {
   try {
@@ -54,12 +55,26 @@ export async function POST(request: Request) {
       )
     }
 
+    await sendLineMessage(
+      `🃏 新しい開催が登録されました\n\n` +
+        `開催名: ${insertData.title}\n` +
+        `日付: ${insertData.event_date}\n` +
+        `時間: ${insertData.start_time}\n` +
+        `会場: ${insertData.venue_name}\n` +
+        `参加費: ${insertData.buy_in.toLocaleString()}pt\n\n` +
+        `▼詳細\n` +
+        `${process.env.NEXT_PUBLIC_SITE_URL || 'https://stackboard-seven.vercel.app'}/events/${data.id}`
+    )
+
     return NextResponse.json({ ok: true, id: data.id })
   } catch (error) {
     console.error('Create event route error:', error)
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : 'サーバーエラーが発生しました',
+        error:
+          error instanceof Error
+            ? error.message
+            : 'サーバーエラーが発生しました',
       },
       { status: 500 }
     )
